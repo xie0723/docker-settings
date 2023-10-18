@@ -6,7 +6,7 @@ networks:
 services:
   docker-influxdb:
     image: influxdb:2.4
-    container_name: lbk-ep-influxdb
+    container_name: influxdb
     restart: always
     ports:
       - "8086:8086" #HTTP UI and API port
@@ -15,21 +15,21 @@ services:
       DOCKER_INFLUXDB_INIT_USERNAME: "root" #创建管理员用户
       DOCKER_INFLUXDB_INIT_PASSWORD: "ep123456" #创建管理员密码，太简单会报错
       DOCKER_INFLUXDB_INIT_ORG: "lbk-ep" #组织名称
-      DOCKER_INFLUXDB_INIT_BUCKET: "ep-bucket"
+      DOCKER_INFLUXDB_INIT_BUCKET: "my-bucket"
     volumes:
-      - "./influxdb/data:/var/lib/influxdb2"
-      - "./influxdb/config:/etc/influxdb2"
+      - "./data:/var/lib/influxdb2"
+      - "./config:/etc/influxdb2"
     networks:
       - ep-network
 
   docker-chronograf:
-    container_name: lbk-ep-chronograf
+    container_name: chronograf
     image: chronograf:1.10
     restart: always
     ports:
-      - "8888:8888"
+      - "8088:8888"
     environment:
-      INFLUXDB_URL: "http://lbk-ep-influxdb:8086"
+      INFLUXDB_URL: "http://influxdb:8086"
       INFLUXDB_USERNAME: "root"
       INFLUXDB_PASSWORD: "ep123456"
       INFLUXDB_ORG: "lbk-ep"

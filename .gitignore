@@ -1,8 +1,10 @@
-### Example user template template
-### Example user template
-
-# IntelliJ project files
 .idea
 *.iml
 out
 gen
+./prometheus+grafana/grafana_data
+./prometheus+grafana/prometheus_data
+./prometheus+grafana/influxdb_data
+./locust/grafana_data
+./locust/prometheus_data
+venv

@@ -1,0 +1,73 @@
+version: "3"
+services:
+  locust:  # 启动locust 的master服务
+    container_name: locust0
+    build:
+      context: .
+      dockerfile: ./locust/Dockerfile
+    restart: always
+    ports:
+      - "8089:8089"
+      - "5557:5557"
+    command:
+      [
+        "--master","-H","http://0.0.0.0:8089",
+        #        "--headless","--expect-workers","1",
+        #        "--stop-timeout","30",
+        #        "--run-time","60s",
+        # "--spawn-rate","100",
+        # "--users","200"
+      ]
+    networks:
+      - locust_net
+  node-exporter:
+    image: prom/node-exporter:latest  # 用于监控主机的指标
+    container_name: node-exporter0
+    restart: always
+    ports:
+      - "9100:9100"
+    networks:
+      - locust_net
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: "prometheus0"
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./prometheus_data:/prometheus"
+    networks:
+      - locust_net
+  grafana:
+    image: grafana/grafana
+    container_name: "grafana0"
+    restart: always
+    ports:
+      - "3001:3000"
+    volumes:
+      - "./grafana_data:/var/lib/grafana"
+    networks:
+      - locust_net
+#  influxdb:
+#    image: influxdb:latest
+#    container_name: "influxdb0"
+#    restart: always
+#    ports:
+#      - "8086:8086"
+#    volumes:
+#      - "./influxdb_data:/var/lib/influxdb2"
+#    expose:
+#      - "8086"
+#    environment:
+#      - DOCKER_INFLUXDB_INIT_MODE=setup
+#      - DOCKER_INFLUXDB_INIT_USERNAME=xie0723
+#      - DOCKER_INFLUXDB_INIT_PASSWORD=xie0723
+#      - DOCKER_INFLUXDB_INIT_ORG=my-org
+#      - DOCKER_INFLUXDB_INIT_BUCKET=my-bucket
+#      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+#    networks:
+#      - locust_net
+networks:
+  locust_net:
+    driver: bridge

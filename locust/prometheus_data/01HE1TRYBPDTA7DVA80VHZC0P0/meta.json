@@ -1,0 +1,17 @@
+{
+	"ulid": "01HE1TRYBPDTA7DVA80VHZC0P0",
+	"minTime": 1698710400209,
+	"maxTime": 1698717600000,
+	"stats": {
+		"numSamples": 5690400,
+		"numSeries": 1329,
+		"numChunks": 47941
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HE1TRYBPDTA7DVA80VHZC0P0"
+		]
+	},
+	"version": 1
+}

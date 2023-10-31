@@ -1,0 +1,17 @@
+{
+	"ulid": "01HE21MP32H4J7NVY865XR6R6X",
+	"minTime": 1698717600042,
+	"maxTime": 1698724800000,
+	"stats": {
+		"numSamples": 5690421,
+		"numSeries": 1329,
+		"numChunks": 47941
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HE21MP32H4J7NVY865XR6R6X"
+		]
+	},
+	"version": 1
+}

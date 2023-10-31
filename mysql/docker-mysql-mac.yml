@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql:
+    platform: linux/amd64 # 解决m1芯片问题
+    image: mysql:5.7.34
+    container_name: lbk-ep-mysql
+    environment:
+      MYSQL_DATABASE: 'lbk_ep_dev'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: '123456'
+      MYSQL_ROOT_PASSWORD: 'xie0723'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+      TZ: Asia/Shanghai
+    volumes:
+      - /Users/xiewangming/work/code/lbk-qa-backend/conf/cicd/my.cnf:/etc/mysql/my.cnf
+      - /Users/xiewangming/work/docker-home/mysql/log:/var/log/mysql
+      - /Users/xiewangming/work/docker-home/mysql/data:/var/lib/mysql
+      - /Users/xiewangming/work/docker-home/mysql/source:/docker-entrypoint-initdb.d # 数据库还原
+    ports:
+      - "3306:3306"
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_general_ci',
+      '--max_connections=3000'
+    ]
+    privileged: true # 解决权限问题
+    user: root
+    restart: always

@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7.26
+    container_name: lbk-ep-mysql
+    environment:
+      MYSQL_DATABASE: 'lbk_ep_test'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: "EpTest123"
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+      TZ: Asia/Shanghai
+    volumes:
+      - /root/data/docker-home/mysql/log:/var/log/mysql
+      - ./my.cnf:/etc/mysql/my.cnf
+      - /root/data/docker-home/mysql/data:/var/lib/mysql
+      - /root/data/docker-home/mysql/source:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_general_ci',
+      '--max_connections=3000'
+    ]
+    privileged: true # 解决权限问题
+    user: root
+    restart: always

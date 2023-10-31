@@ -1,0 +1,15 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    container_name: lbk-ep-redis
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /Users/xiewangming/work/docker-home/redis/data:/data
+      - /Users/xiewangming/work/code/lbk-qa-backend/conf/cicd/redis.conf:/usr/local/etc/redis/redis.conf
+      - /Users/xiewangming/work/docker-home/redis/logs:/logs
+    ports:
+      - "6379:6379"
+    restart: always
+    privileged: true # 使用该参数，container内的root拥有真正的root权限。否则，container内的root只是外部的一个普通用户权限
